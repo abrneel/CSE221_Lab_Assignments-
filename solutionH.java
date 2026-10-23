@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class solutionH{
+public class H{
     public static void main(String[] args)throws Exception{
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter pw = new PrintWriter(System.out);
@@ -24,83 +24,52 @@ public class solutionH{
             inputs--;
         }
         //sort the data
-        for(int i = 0; i < len-1; i++){
-
-            
-             
-            
-            for(int j = i+1; j < len; j++){
-                int len1 = firstWord[i].length();
-                boolean flag = true;
-                //if true x wins
-                //if false y wins
-                boolean isEqual = false;
-                if(firstWord[i].equals(firstWord[j]) == true){
-                    isEqual = true;
-                }
-                else{
-                int len2 = firstWord[j].length();
-                int max = -1;
-                if(len1>len2) max = len1;
-                else max = len2;
-                // this loop is to compare the values
-                int k = 0;
-                while(k<max){ //help
-                    if(lines[i].charAt(k) == lines[j].charAt(k)){
-                        k++;
-                    }
-                    else if(lines[i].charAt(k)<lines[j].charAt(k) || lines[i].charAt(k)==' '){
-                        break;
-                    }
-                    else if(lines[i].charAt(k)>lines[j].charAt(k) || lines[j].charAt(k)==' '){
-                        flag = false;
-                        break;
-                    }
-                }
-                }
-                if(isEqual){
-                //compare time
-                    if(times[i]<times[j]){
-                        //swap code
-                        String tempLine = lines[i];
-                        String tempWord = firstWord[i];
-                        double tempTime = times[i];
-                        int tempOrder = inputOrder[i];
-
-                        lines[i] = lines[j];
-                        firstWord[i] = firstWord[j];
-                        times[i] = times[j];
-
-                        lines[j] = tempLine;
-                        firstWord[j] = tempWord;
-                        times[j] = tempTime;
-
-                        inputOrder[i] = inputOrder[j];
-                        inputOrder[j] = tempOrder;
-                    }
-                    else if(times[i]==times[j]){
-                        if(inputOrder[i]>inputOrder[j]){
-                            String tempLine = lines[i];
-                        String tempWord = firstWord[i];
-                        double tempTime = times[i];
-                        int tempOrder = inputOrder[i];
-
-                        lines[i] = lines[j];
-                        firstWord[i] = firstWord[j];
-                        times[i] = times[j];
-
-                        lines[j] = tempLine;
-                        firstWord[j] = tempWord;
-                        times[j] = tempTime;
-
-                        inputOrder[i] = inputOrder[j];
-                        inputOrder[j] = tempOrder;
+        for(int i = 0; i < len - 1; i++){
+            for(int j = i + 1; j < len; j++){
+                if(firstWord[i].equals(firstWord[j])){
+                    if(times[i]==times[j]){
+                        if(inputOrder[j]<inputOrder[i]){
+                            //then swap
+                            swap(lines, firstWord, times, inputOrder, i, j);
                         }
                     }
+                    else if(times[j]>times[i]){
+                        //then swap
+                        swap(lines, firstWord, times, inputOrder, i, j);
+                    }
                 }
                 else{
-                    if(flag==false){
-                    //swap code
+                    int k = 0;
+                    boolean flag = true;
+                    //if true i wins and if false j wins
+                    //if i wins no swap, if j wins swap
+                    while(true){
+                        if(lines[i].charAt(k) == lines[j].charAt(k)){
+                            k++;
+                        }
+                        else if(lines[i].charAt(k)<lines[j].charAt(k) || lines[i].charAt(k)==' '){
+                            break;
+                        }
+                    else if(lines[i].charAt(k)>lines[j].charAt(k) || lines[j].charAt(k)==' '){
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if(!flag){
+                        //swap
+                        swap(lines, firstWord, times, inputOrder, i, j);
+                    }
+                }
+            }
+        }
+
+        //print the data
+        for(int i = 0; i < len; i++){
+            pw.println(lines[i]);
+        }
+        pw.flush();
+    }
+    public static void swap(String[] lines, String[] firstWord, double[] times, int[] inputOrder, int i, int j){
                     String tempLine = lines[i];
                     String tempWord = firstWord[i];
                     double tempTime = times[i];
@@ -116,16 +85,5 @@ public class solutionH{
 
                     inputOrder[i] = inputOrder[j];
                     inputOrder[j] = tempOrder;
-                    }
-                }
-            }
-            
-        }
-
-        //print the data
-        for(int i = 0; i < len; i++){
-            pw.println(lines[i]);
-        }
-        pw.flush();
     }
 }
